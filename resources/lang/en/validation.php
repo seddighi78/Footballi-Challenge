@@ -137,9 +137,7 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'github-username' => 'Your Github username is not valid.',
     ],
 
     /*
