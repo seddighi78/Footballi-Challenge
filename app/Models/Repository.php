@@ -24,6 +24,7 @@ class Repository extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'user_id',
         'name',
         'language',

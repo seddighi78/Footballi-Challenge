@@ -18,3 +18,7 @@ Route::prefix('auth')->group(static function() {
     Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
     Route::post('/register', [App\Http\Controllers\AuthController::class, 'register']);
 });
+
+Route::prefix('repositories')->middleware('auth:api')->group(static function() {
+    Route::get('/', [App\Http\Controllers\RepositoryController::class, 'index']);
+});
