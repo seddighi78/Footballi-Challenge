@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
+ * @property int $source_id
  * @property int $user_id
  * @property string $name
  * @property string|null $language
@@ -25,6 +26,7 @@ class Repository extends Model
 
     protected $fillable = [
         'id',
+        'source_id',
         'user_id',
         'name',
         'language',

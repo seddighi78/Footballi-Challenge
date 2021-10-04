@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Repository\RepositoryRepositoryInterface;
 use App\Services\Github\GithubServiceInterface;
+use Illuminate\Support\Facades\Cache;
 
 class RepositoryService
 {
@@ -17,14 +18,22 @@ class RepositoryService
         $this->github = $github;
         $this->repositories = $repositories;
         $this->user = auth('api')->user();
-
     }
 
     public function index(array $pagination = [], array $filters = [])
     {
-        $this->sync();
+        if (!Cache::has($this->getCacheKey())) {
+            $this->sync();
+        }
 
-        return $this->repositories->index($pagination, $filters);
+        $filters['user_id'] = $this->user->id;
+
+        return $this->repositories->get($pagination, $filters);
+    }
+
+    private function getCacheKey()
+    {
+        return strtolower($this->user->id).'_repositories';
     }
 
     private function sync()
@@ -32,16 +41,23 @@ class RepositoryService
         $page = 1;
         do {
             $results = $this->github->repositories()->starred($this->user->username, $page);
+
+            if ($results === null) {
+                break;
+            }
+
             $this->insert($results);
             $page++;
         } while (!empty($results));
+
+        Cache::put($this->getCacheKey(), true, 3600);
     }
 
     private function insert(array $items)
     {
         foreach ($items as $item) {
             $attributes = [
-                'id' => $item['id'],
+                'source_id' => $item['id'],
                 'user_id' => $this->user->id,
                 'name' => $item['name'],
                 'language' => $item['language'],

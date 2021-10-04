@@ -10,6 +10,7 @@ class CreateRepositoriesTable extends Migration
     {
         Schema::create('repositories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('source_id');
             $table->foreignId('user_id')->constrained('users');
             $table->string('name');
             $table->string('language')->nullable();

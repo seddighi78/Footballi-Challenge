@@ -17,10 +17,10 @@ class RepositoryRepository implements RepositoryRepositoryInterface
 
     public function find(int $id)
     {
-        return $this->model->newQuery()->where('id', $id)->first();
+        return $this->model->newQuery()->find($id);
     }
 
-    public function index(array $pagination = [], array $filters = [])
+    public function get(array $pagination = [], array $filters = [])
     {
         $repositories = $this->model->newQuery();
 
@@ -30,11 +30,49 @@ class RepositoryRepository implements RepositoryRepositoryInterface
             });
         }
 
-        return $repositories->paginate($pagination['per_page'] ?? null);
+        if (isset($filters['user_id'])) {
+            $repositories->where('user_id', $filters['user_id']);
+        }
+
+        $pagination['page'] = $pagination['page'] ?? 1;
+        $pagination['per_page'] = $pagination['per_page'] ?? null;
+
+        return $repositories->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
     }
 
     public function create(array $attributes)
     {
-        return $this->model->newQuery()->firstOrCreate($attributes);
+        return $this->model->newQuery()->updateOrCreate([
+            'source_id' => $attributes['source_id'],
+            'user_id' => $attributes['user_id'],
+        ], $attributes);
+    }
+
+    public function attachTag(int $id, int $tagId)
+    {
+        /** @var Repository $repository */
+        $repository = $this->model->newQuery()->find($id);
+
+        if ($repository === null) {
+            return null;
+        }
+
+        $repository->tags()->syncWithoutDetaching([$tagId]);
+
+        return $repository;
+    }
+
+    public function detachTag(int $id, int $tagId)
+    {
+        /** @var Repository $repository */
+        $repository = $this->model->newQuery()->find($id);
+
+        if ($repository === null) {
+            return null;
+        }
+
+        $repository->tags()->detach($tagId);
+
+        return $repository;
     }
 }

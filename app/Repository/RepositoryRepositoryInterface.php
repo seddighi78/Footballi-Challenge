@@ -13,15 +13,29 @@ interface RepositoryRepositoryInterface
     public function find(int $id);
 
     /**
-     * @param array $pagination
+     * @param array $pagination the page and per_page are used to pagination.
      * @param array $filters
      * @return Repository[]
      */
-    public function index(array $pagination = [], array $filters = []);
+    public function get(array $pagination = [], array $filters = []);
 
     /**
      * @param array $attributes
      * @return Repository
      */
     public function create(array $attributes);
+
+    /**
+     * @param int $id
+     * @param int $tagId
+     * @return Repository
+     */
+    public function attachTag(int $id, int $tagId);
+
+    /**
+     * @param int $id
+     * @param int $tagId
+     * @return Repository
+     */
+    public function detachTag(int $id, int $tagId);
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Repository\IndexRequest;
+use App\Http\Requests\Repository\ShowRequest;
 use App\Http\Resources\Repository\RepositoryCollectionResource;
+use App\Http\Resources\Repository\RepositoryResource;
+use App\Models\Repository;
 use App\Services\RepositoryService;
 
 class RepositoryController extends Controller
@@ -18,10 +21,15 @@ class RepositoryController extends Controller
     public function index(IndexRequest $request)
     {
         $pagination = $request->only(['page', 'per_page']);
-        $filters = $request->only('tag');
+        $filters = $request->only(['tag']);
 
         $repositories = $this->service->index($pagination, $filters);
 
         return RepositoryCollectionResource::collection($repositories);
+    }
+
+    public function show(ShowRequest $request, Repository $repository)
+    {
+        return new RepositoryResource($repository);
     }
 }

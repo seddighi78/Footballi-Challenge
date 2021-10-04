@@ -18,6 +18,7 @@ class RepositoryFactory extends Factory
         $languages = ['php', 'c#', 'javascript', 'c', 'python', 'cpp', 'ruby', 'r'];
 
         return [
+            'source_id' => $this->faker->randomNumber(),
             'user_id' => $user->id ,
             'name' => $this->faker->name,
             'language' => $this->faker->randomElement($languages),
