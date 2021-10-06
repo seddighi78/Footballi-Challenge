@@ -34,7 +34,7 @@ Generate a new application key
 
 Generate a new JWT authentication secret key
 
-    php artisan jwt:generate
+    php artisan jwt:secret
 
 Run the database migrations (**Set the database connection in .env before migrating**)
 
@@ -57,7 +57,7 @@ cp .env.example .env
 composer install
 vendor/bin/sail up -d
 vendor/bin/sail artisan key:generate
-vendor/bin/sail artisan jwt:generate
+vendor/bin/sail artisan jwt:secret
 vendor/bin/sail artisan migrate
 ```
 
