@@ -33,5 +33,9 @@ class TagService
         }
 
         $this->repositories->detachTag($repositoryId, $tag->id);
+
+        if (!$this->tags->hasAssignedRepositories($tag->id)) {
+            $this->tags->delete($tag->id);
+        }
     }
 }

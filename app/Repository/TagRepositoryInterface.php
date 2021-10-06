@@ -29,4 +29,16 @@ interface TagRepositoryInterface
      * @return Tag
      */
     public function create(array $attributes);
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function hasAssignedRepositories(int $id);
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function delete(int $id);
 }

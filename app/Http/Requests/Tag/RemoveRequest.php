@@ -13,6 +13,10 @@ class RemoveRequest extends FormRequest
 {
     public function authorize(RepositoryRepositoryInterface $repositories)
     {
+        if ($this->repository_id === null) {
+            return false;
+        }
+
         $repository = $repositories->find($this->repository_id);
 
         if ($repository === null) {

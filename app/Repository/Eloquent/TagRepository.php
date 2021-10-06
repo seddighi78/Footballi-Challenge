@@ -38,4 +38,17 @@ class TagRepository implements TagRepositoryInterface
     {
         return $this->model->newQuery()->firstOrCreate($attributes);
     }
+
+    public function hasAssignedRepositories(int $id)
+    {
+        return $this->model->newQuery()
+            ->where('id', $id)
+            ->has('repositories')
+            ->exists();
+    }
+
+    public function delete(int $id)
+    {
+        return $this->model->newQuery()->where('id', $id)->delete();
+    }
 }
