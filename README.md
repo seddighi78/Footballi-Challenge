@@ -54,6 +54,7 @@ To install with [Docker](https://www.docker.com), run following commands:
 git clone git@github.com:seddighi78/Footballi-Challenge.git
 cd Footballi-Challenge
 cp .env.example .env
+composer install
 vendor/bin/sail up -d
 vendor/bin/sail artisan key:generate
 vendor/bin/sail artisan jwt:generate
