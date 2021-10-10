@@ -21,7 +21,7 @@ Route::prefix('auth')->group(static function() {
 
 Route::prefix('repositories')->middleware('auth:api')->group(static function() {
     Route::get('/', [App\Http\Controllers\RepositoryController::class, 'index']);
-    Route::get('/{repository}', [App\Http\Controllers\RepositoryController::class, 'show']);
+    Route::get('/{id}', [App\Http\Controllers\RepositoryController::class, 'show']);
 });
 
 Route::prefix('tags')->middleware('auth:api')->group(static function() {

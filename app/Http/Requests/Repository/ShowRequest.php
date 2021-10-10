@@ -2,15 +2,18 @@
 
 namespace App\Http\Requests\Repository;
 
-use App\Models\Repository;
+use App\Repository\RepositoryRepositoryInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowRequest extends FormRequest
 {
-    public function authorize()
+    public function authorize(RepositoryRepositoryInterface $repositories)
     {
-        /** @var Repository $repository */
-        $repository = $this->route('repository');
+        $repository = $repositories->find($this->route('id'));
+
+        if ($repository === null) {
+            return false;
+        }
 
         return $repository->user->id === auth('api')->id();
     }
