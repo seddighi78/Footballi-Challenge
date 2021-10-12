@@ -103,7 +103,7 @@ class Handler extends ExceptionHandler
         }
 
         DefaultResource::$code = 500;
-        DefaultResource::$message = $exception->getMessage();
+        DefaultResource::$message = __('messages.exception.internal_error');
 
         return (new DefaultResource([]))->toResponse($request);
     }

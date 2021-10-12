@@ -13,7 +13,11 @@ class AssignRequest extends FormRequest
 {
     public function authorize(RepositoryRepositoryInterface $repositories)
     {
-        $repository = $repositories->find($this->repository_id);
+        if ($this->repository_id === null) {
+            return false;
+        }
+
+        $repository = $repositories->find((int) $this->repository_id);
 
         if ($repository === null) {
             return false;

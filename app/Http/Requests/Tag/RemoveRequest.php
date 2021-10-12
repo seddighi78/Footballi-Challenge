@@ -17,7 +17,7 @@ class RemoveRequest extends FormRequest
             return false;
         }
 
-        $repository = $repositories->find($this->repository_id);
+        $repository = $repositories->find((int) $this->repository_id);
 
         if ($repository === null) {
             return false;
